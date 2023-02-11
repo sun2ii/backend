@@ -1,5 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import { register } from './controllers/auth.js';
+import { createPost } from './controllers/post.js';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
@@ -9,6 +11,11 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import cors from "cors";
 import multer from "multer";
+
+/* Routes */
+import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
+import postRoutes from "./routes/posts.js";
 
 /* Configurations */
 const __filename = fileURLToPath(import.meta.url);
@@ -47,10 +54,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-import { register } from './controllers/auth.js';
-
 /* Routes with Files */
 app.post('/auth/register', upload.single("picture"), register);
+app.post('/posts', verifyToken, upload.single("picture"), createPost);
+
+/* Route Files */
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
 
 /* Mongoose */
 const PORT = process.env.PORT || 6001;

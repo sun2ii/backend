@@ -1,29 +1,40 @@
-import express from "express";
-import bodyParser from "body-parser";
-import mongoose from "mongoose";
-import cors from "cors";
-import multer from "multer";
-import helmet from "helmet";
-import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
+import mongoose from "mongoose";
+
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
+import bodyParser from "body-parser";
+import cors from "cors";
+import multer from "multer";
 
 /* Configurations */
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const app = express();
+const __dirname  = path.dirname(__filename);
 dotenv.config();
+
+// Express
+const app = express();
 app.use(express.json());
-app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin"}));
-app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets"))); // put this in cloud storage like s3 in real life production
 
+// Helmet - Secures HTTP Headers (protects from XSS, CSRF, etc)
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin"}));
+
+// Morgan - Logs incoming HTTP requests
+app.use(morgan("common"));
+
+// Body Parser - Make parsing data in req.body much simpler
+app.use(bodyParser.json({ limit: "30mb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
+// Cross Origin Resource Sharing (cors) - Allows you to specify origins that are allowed to access your application. Web browsers have a default same-origin policy
+app.use(cors());
+
 /* File Storage */
-// this is how you can save your files using multer.
+// multer - used for file uploads
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, "public/assets");

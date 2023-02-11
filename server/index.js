@@ -1,11 +1,16 @@
-import path from "path";
-import { fileURLToPath } from "url";
+/* Controllers & Middleware */
 import { register } from './controllers/auth.js';
 import { createPost } from './controllers/posts.js';
 import { verifyToken } from './middleware/auth.js';
+
+/* Default middleware */
+import path from "path";
+import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { users, posts } from './data/index.js';
 
+/* Extended middleware */
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -17,6 +22,8 @@ import multer from "multer";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import postRoutes from "./routes/posts.js";
+import User from './models/User.js';
+import Post from './models/Post.js';
 
 /* Configurations */
 const __filename = fileURLToPath(import.meta.url);
@@ -55,16 +62,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-/* Routes with Files */
+/* Routes with upload files */
 app.post('/auth/register', upload.single("picture"), register);
 app.post('/posts', verifyToken, upload.single("picture"), createPost);
 
-/* Route Files */
+/* Routes */
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 
-/* Mongoose */
+/* Mongoose Database Connect */
 const PORT = process.env.PORT || 6001;
 console.log(process.env.PORT)
 mongoose.connect(process.env.MONGO_URL, {
@@ -72,5 +79,9 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true,
 }).then(() => {
     app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+    /* Add once 
+    User.insertMany(users);
+    Post.insertMany(posts);
+    */
 }).catch(err => console.error(err));
 

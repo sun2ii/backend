@@ -47,6 +47,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
+import { register } from './controllers/auth.js';
+
+/* Routes with Files */
+app.post('/auth/register', upload.single("picture"), register);
+
 /* Mongoose */
 const PORT = process.env.PORT || 6001;
 console.log(process.env.PORT)

@@ -1,7 +1,8 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { register } from './controllers/auth.js';
-import { createPost } from './controllers/post.js';
+import { createPost } from './controllers/posts.js';
+import { verifyToken } from './middleware/auth.js';
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 

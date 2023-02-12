@@ -29,4 +29,11 @@ app.use('/management', managementRoutes)
 app.use('/sales', salesRoutes)
 
 /* Mongoose */
-
+const PORT = process.env.PORT || 6001;
+console.log(process.env.PORT)
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+}).catch(err => console.error(err));

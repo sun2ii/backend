@@ -81,7 +81,7 @@ const navItems = [
         icon : <PieChartOutlined />
     },
     {
-        text : "Managmenet",
+        text : "Management",
         icon : null
     },
     {
@@ -146,7 +146,7 @@ const Sidebar = ({
                     {navItems.map(({ text, icon }) => {
                         if (!icon) {
                             return (
-                                <Typography key={text} sx={{ m : "2.25rem 0 1rem 3rem"}}>
+                                <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem"}}>
                                     {text}
                                 </Typography>
                             )
@@ -164,19 +164,19 @@ const Sidebar = ({
                                         backgroundColor: active === lcText ? theme.palette.secondary[300] : "transparent",
                                         color: active === lcText ? theme.palette.primary[600] : theme.palette.secondary[100]
                                     }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            ml: "2rem",
+                                            color: active === lcText ? theme.palette.primary[600] : theme.palette.secondary[200]
+                                        }}
                                     >
-                                        <ListItemIcon
-                                            sx={{
-                                                ml: "2rem",
-                                                color: active === lcText ? theme.palette.primary[600] : theme.palette.secondary[200]
-                                            }}
-                                        >
-                                            {icon}
-                                            <ListItemText primary={text}/>
-                                            {active === lcText && (
-                                                <ChevronRightOutlined sx={{ml : "auto" }} />
-                                            )}
-                                        </ListItemIcon>
+                                    {icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={text}/>
+                                    {active === lcText && (
+                                        <ChevronRightOutlined sx={{ml : "auto" }} />
+                                    )}
                                 </ListItemButton>
                             </ListItem>
                         )

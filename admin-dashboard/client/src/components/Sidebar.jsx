@@ -10,7 +10,7 @@ import {
     ListItemIcon,
     ListItemText,
     Typography,
-    useTheme
+    useTheme,
 } from "@mui/material";
 
 import {
@@ -31,7 +31,7 @@ import {
 } from "@mui/icons-material"
 
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from './FlexBetween';
 import profileImage from 'assets/profile.jpeg';
 
@@ -101,7 +101,7 @@ const Sidebar = ({
     isNonMobile
 }) => {
   const { pathname } = useLocation();
-  const { active, setActive } = useState("");
+  const [ active, setActive ] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -168,7 +168,7 @@ const Sidebar = ({
                                         <ListItemIcon
                                             sx={{
                                                 ml: "2rem",
-                                                color: active === lcText ? theme.palette.primary[600] : theme.pallette.secondary[200]
+                                                color: active === lcText ? theme.palette.primary[600] : theme.palette.secondary[200]
                                             }}
                                         >
                                             {icon}
